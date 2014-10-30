@@ -2,6 +2,7 @@
 namespace OnyxPrize\Model;
 
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Select;
 
 /**
  * OnyxPrizeTable model
@@ -86,18 +87,20 @@ class OnyxPrizeTable
         	'id' => $onyxprize->id,
         	'name' => $onyxprize->name,
         	'max_limit' => $onyxprize->max_limit,
-        	'period_limit' => $onyxprize->period_limit,
+        	'end_date' => $onyxprize->end_date,
         	'current' => $onyxprize->current,
         	'updatedon' => $onyxprize->updatedon,
         	'postdate' => $onyxprize->postdate,
         	'updatedby' => $onyxprize->updatedby,
+        	'hour_weight' => $onyxprize->hour_weight,
+        	'start_date' => $onyxprize->start_date,
 
         );
         $id = (int)$onyxprize->id;
         if ($id == 0) {
         	$data['postdate'] = date('Y-m-d H:i:s');
         	$id = $this->tableGateway->insert($data);
-        	$user->id = $id;
+        	$onyxprize->id = $id;
         	return $id;
         } else {
         	if ($this->getById($id)) {
@@ -116,6 +119,27 @@ class OnyxPrizeTable
     public function delete($id)
     {
         $this->tableGateway->delete(array('id' => $id));
+    }
+    
+    
+    /**
+     * Return all data active
+     */
+    public function getAllActive()
+    {
+//        $sql = $this->tableGateway->getSql();
+//        $select = $sql->select();
+//        $select->where->lessThan('start_date', date('Y-m-d 23:59:59'));
+//        $select->where->greaterThan('end_date', date('Y-m-d 0:00:00'));
+//            
+//            echo $sql->getSqlstringForSqlObject($select); die ; 
+        
+        
+        $resultSet = $this->tableGateway->select(function (Select $select) {
+            $select->where->lessThan('start_date', date('Y-m-d 23:59:59'));
+            $select->where->greaterThan('end_date', date('Y-m-d 0:00:00'));
+        });
+        return $resultSet;
     }
 
 

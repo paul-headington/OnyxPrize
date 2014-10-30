@@ -1,10 +1,13 @@
 <?php
 namespace OnyxPrize;
 
+use OnyxPrize\Model\OnyxPrizePick;
+use OnyxPrize\Model\OnyxPrizePickTable;
 use OnyxPrize\Model\OnyxPrize;
 use OnyxPrize\Model\OnyxPrizeTable;
 use OnyxPrize\Model\OnyxPrizeSetting;
 use OnyxPrize\Model\OnyxPrizeSettingTable;
+use OnyxPrize\Service\PrizePicker;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -47,7 +50,21 @@ class Module
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype($sm->get('OnyxPrize'));
                     return new TableGateway('onyx_prize', $dbAdapter, null, $resultSetPrototype);
-                },  
+                },
+                'OnyxPrizePick' => function($sm){
+                    return new OnyxPrizePick($sm);
+                },                
+                'OnyxPrizePickTable' =>  function($sm) {
+                    $tableGateway = $sm->get('OnyxPrizePickTableGateway');
+                    $table = new OnyxPrizePickTable($tableGateway);
+                    return $table;
+                },
+                'OnyxPrizePickTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype($sm->get('OnyxPrizePick'));
+                    return new TableGateway('onyx_prize_pick', $dbAdapter, null, $resultSetPrototype);
+                },         
                 'OnyxPrizeSetting' => function($sm){
                     return new OnyxPrizeSetting($sm);
                 },                
@@ -62,6 +79,9 @@ class Module
                     $resultSetPrototype->setArrayObjectPrototype($sm->get('OnyxPrizeSetting'));
                     return new TableGateway('onyx_prize_setting', $dbAdapter, null, $resultSetPrototype);
                 },  
+                'OnyxPrizePicker' => function($sm){
+                    return new PrizePicker($sm);
+                },
             ),
             
         );

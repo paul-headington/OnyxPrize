@@ -2,9 +2,9 @@
 namespace OnyxPrize\Model;
 
 use Zend\Db\TableGateway\TableGateway;
-
+use Zend\Db\Sql\Select;
 /**
- * OnyxPrizeSettingTable model
+ * OnyxPrizePickTable model
  *
  * This is a class generated with Paul's Zend MVC Model Generator.
  *
@@ -37,7 +37,7 @@ use Zend\Db\TableGateway\TableGateway;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-class OnyxPrizeSettingTable
+class OnyxPrizePickTable
 {
 
     public $tableGateway = null;
@@ -80,29 +80,28 @@ class OnyxPrizeSettingTable
      *
      * @id The primary key of the object
      */
-    public function save(OnyxPrizeSetting $onyxprizesetting)
+    public function save(OnyxPrizePick $onyxprizepick)
     {
         $data = array(
-        	'id' => $onyxprizesetting->id,
-        	'number_of_days' => $onyxprizesetting->number_of_days,
-        	'single_win' => $onyxprizesetting->single_win,
-        	'single_daily_win' => $onyxprizesetting->single_daily_win,
-        	'updatedon' => $onyxprizesetting->updatedon,
-        	'updatedby' => $onyxprizesetting->updatedby,
-        	'postdate' => $onyxprizesetting->postdate,
+        	'id' => $onyxprizepick->id,
+        	'win_time' => $onyxprizepick->win_time,
+        	'onyx_prize_id' => $onyxprizepick->onyx_prize_id,
+        	'claimed' => $onyxprizepick->claimed,
+        	'updatedon' => $onyxprizepick->updatedon,
+        	'postdate' => $onyxprizepick->postdate,
 
         );
-        $id = (int)$onyxprizesetting->id;
+        $id = (int)$onyxprizepick->id;
         if ($id == 0) {
         	$data['postdate'] = date('Y-m-d H:i:s');
         	$id = $this->tableGateway->insert($data);
-        	$onyxprizesetting->id = $id;
+        	$onyxprizepick->id = $id;
         	return $id;
         } else {
         	if ($this->getById($id)) {
         		$this->tableGateway->update($data, array('id' => $id));
         	} else {
-        		throw new \Exception('OnyxPrizeSetting id does not exist');
+        		throw new \Exception('OnyxPrizePick id does not exist');
         	}
         }
     }
@@ -115,6 +114,47 @@ class OnyxPrizeSettingTable
     public function delete($id)
     {
         $this->tableGateway->delete(array('id' => $id));
+    }
+    
+    public function isThereAPrizeForMe(){
+        $sql = $this->tableGateway->getSql();
+        
+        $updateStm = "UPDATE `onyx_prize_pick`
+                    SET `claimed` = '1'
+                    WHERE
+                            `win_time` < '".date('Y-m-d H:i:s')."'
+                    AND `claimed` = '0'
+                    LIMIT 1";
+        
+        $dbAdapter = $sql->getAdapter();
+        
+        $statement = $dbAdapter->createStatement($updateStm); 
+        
+        return $statement->execute(); 
+        
+    }
+    
+
+    /**
+     * check if there are prizes assign for today
+     */
+    public function checkIfTodayPicked($onyxPrizeId)
+    {
+        $sql = $this->tableGateway->getSql();
+        $select = $sql->select();
+        $select->where->lessThan('win_time', date('Y-m-d 23:59:59'));
+        $select->where->greaterThan('win_time', date('Y-m-d 0:00:00'));
+        $select->where(array('onyx_prize_id' => $onyxPrizeId));
+
+        //echo $sql->getSqlstringForSqlObject($select); die ; 
+        
+        
+        $resultSet = $this->tableGateway->selectWith($select);
+        
+        if (count($resultSet) < 1) {
+            return false;
+        }
+        return true;
     }
 
 

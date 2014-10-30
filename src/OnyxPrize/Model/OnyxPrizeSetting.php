@@ -42,11 +42,11 @@ class OnyxPrizeSetting
 
     public $id = null;
 
-    public $limit_period = null;
+    public $number_of_days = 0;
 
-    public $amount_per_hour = 0;
+    public $single_win = null;
 
-    public $hour_weight = null;
+    public $single_daily_win = null;
 
     public $updatedon = null;
 
@@ -72,24 +72,9 @@ class OnyxPrizeSetting
                 )
             )
         ),
-        'limit_period' => array(
+        'number_of_days' => array(
             'required' => false,
-            'name' => 'limit_period',
-            'validators' => array(
-                array(
-                    'name' => 'not_empty'
-                ),
-                array(
-                    'name' => 'string_length',
-                    'options' => array(
-                        'min' => 3
-                    )
-                )
-            )
-        ),
-        'amount_per_hour' => array(
-            'required' => false,
-            'name' => 'amount_per_hour',
+            'name' => 'number_of_days',
             'validators' => array(
                 array(
                     'name' => 'not_empty'
@@ -102,26 +87,25 @@ class OnyxPrizeSetting
                 )
             )
         ),
-        'hour_weight' => array(
+        'single_win' => array(
             'required' => false,
-            'name' => 'hour_weight',
+            'name' => 'single_win',
             'validators' => array(
-                array(
-                    'name' => 'not_empty'
-                ),
-                array(
-                    'name' => 'string_length',
-                    'options' => array(
-                        'min' => 3
-                    )
-                )
+                
+            )
+        ),
+        'single_daily_win' => array(
+            'required' => false,
+            'name' => 'single_daily_win',
+            'validators' => array(
+                
             )
         ),
         'updatedon' => array(
             'required' => false,
             'name' => 'updatedon',
             'validators' => array(
-
+                
             )
         ),
         'updatedby' => array(
@@ -143,7 +127,7 @@ class OnyxPrizeSetting
             'required' => false,
             'name' => 'postdate',
             'validators' => array(
-
+                
             )
         )
     );
@@ -169,9 +153,9 @@ class OnyxPrizeSetting
     public function exchangeArray($data)
     {
         $this->id		= (isset($data["id"])) ? $data["id"] : null;
-        $this->limit_period		= (isset($data["limit_period"])) ? $data["limit_period"] : null;
-        $this->amount_per_hour		= (isset($data["amount_per_hour"])) ? $data["amount_per_hour"] : null;
-        $this->hour_weight		= (isset($data["hour_weight"])) ? $data["hour_weight"] : null;
+        $this->number_of_days		= (isset($data["number_of_days"])) ? $data["number_of_days"] : null;
+        $this->single_win		= (isset($data["single_win"])) ? $data["single_win"] : null;
+        $this->single_daily_win		= (isset($data["single_daily_win"])) ? $data["single_daily_win"] : null;
         $this->updatedon		= (isset($data["updatedon"])) ? $data["updatedon"] : null;
         $this->updatedby		= (isset($data["updatedby"])) ? $data["updatedby"] : null;
         $this->postdate		= (isset($data["postdate"])) ? $data["postdate"] : null;

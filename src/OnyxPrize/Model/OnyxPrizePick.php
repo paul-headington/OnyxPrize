@@ -2,7 +2,7 @@
 namespace OnyxPrize\Model;
 
 /**
- * OnyxPrize model
+ * OnyxPrizePick model
  *
  * This is a class generated with Paul's Zend MVC Model Generator.
  *
@@ -35,30 +35,22 @@ namespace OnyxPrize\Model;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-class OnyxPrize
+class OnyxPrizePick
 {
 
     use \GetSet\SetterGetter;
 
     public $id = null;
 
-    public $name = null;
+    public $win_time = null;
 
-    public $max_limit = 0;
+    public $onyx_prize_id = 0;
 
-    public $end_date = null;
-
-    public $current = 0;
+    public $claimed = null;
 
     public $updatedon = null;
 
     public $postdate = null;
-
-    public $updatedby = 0;
-
-    public $hour_weight = null;
-
-    public $start_date = null;
 
     const filter = null;
 
@@ -78,46 +70,16 @@ class OnyxPrize
                 )
             )
         ),
-        'name' => array(
+        'win_time' => array(
             'required' => false,
-            'name' => 'name',
-            'validators' => array(
-                array(
-                    'name' => 'not_empty'
-                ),
-                array(
-                    'name' => 'string_length',
-                    'options' => array(
-                        'min' => 3
-                    )
-                )
-            )
-        ),
-        'max_limit' => array(
-            'required' => false,
-            'name' => 'max_limit',
-            'validators' => array(
-                array(
-                    'name' => 'not_empty'
-                ),
-                array(
-                    'name' => 'string_length',
-                    'options' => array(
-                        'min' => 1
-                    )
-                )
-            )
-        ),
-        'end_date' => array(
-            'required' => false,
-            'name' => 'end_date',
+            'name' => 'win_time',
             'validators' => array(
                 
             )
         ),
-        'current' => array(
+        'onyx_prize_id' => array(
             'required' => false,
-            'name' => 'current',
+            'name' => 'onyx_prize_id',
             'validators' => array(
                 array(
                     'name' => 'not_empty'
@@ -128,6 +90,13 @@ class OnyxPrize
                         'min' => 1
                     )
                 )
+            )
+        ),
+        'claimed' => array(
+            'required' => false,
+            'name' => 'claimed',
+            'validators' => array(
+                
             )
         ),
         'updatedon' => array(
@@ -140,43 +109,6 @@ class OnyxPrize
         'postdate' => array(
             'required' => false,
             'name' => 'postdate',
-            'validators' => array(
-                
-            )
-        ),
-        'updatedby' => array(
-            'required' => false,
-            'name' => 'updatedby',
-            'validators' => array(
-                array(
-                    'name' => 'not_empty'
-                ),
-                array(
-                    'name' => 'string_length',
-                    'options' => array(
-                        'min' => 1
-                    )
-                )
-            )
-        ),
-        'hour_weight' => array(
-            'required' => false,
-            'name' => 'hour_weight',
-            'validators' => array(
-                array(
-                    'name' => 'not_empty'
-                ),
-                array(
-                    'name' => 'string_length',
-                    'options' => array(
-                        'min' => 3
-                    )
-                )
-            )
-        ),
-        'start_date' => array(
-            'required' => false,
-            'name' => 'start_date',
             'validators' => array(
                 
             )
@@ -204,15 +136,11 @@ class OnyxPrize
     public function exchangeArray($data)
     {
         $this->id		= (isset($data["id"])) ? $data["id"] : null;
-        $this->name		= (isset($data["name"])) ? $data["name"] : null;
-        $this->max_limit		= (isset($data["max_limit"])) ? $data["max_limit"] : null;
-        $this->end_date		= (isset($data["end_date"])) ? $data["end_date"] : null;
-        $this->current		= (isset($data["current"])) ? $data["current"] : null;
+        $this->win_time		= (isset($data["win_time"])) ? $data["win_time"] : null;
+        $this->onyx_prize_id		= (isset($data["onyx_prize_id"])) ? $data["onyx_prize_id"] : null;
+        $this->claimed		= (isset($data["claimed"])) ? $data["claimed"] : null;
         $this->updatedon		= (isset($data["updatedon"])) ? $data["updatedon"] : null;
         $this->postdate		= (isset($data["postdate"])) ? $data["postdate"] : null;
-        $this->updatedby		= (isset($data["updatedby"])) ? $data["updatedby"] : null;
-        $this->hour_weight		= (isset($data["hour_weight"])) ? $data["hour_weight"] : null;
-        $this->start_date		= (isset($data["start_date"])) ? $data["start_date"] : null;
     }
 
 
