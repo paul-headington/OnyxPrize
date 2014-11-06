@@ -83,7 +83,10 @@ class PrizePicker {
         foreach($this->activePrizes as $prize){
             if($this->getPrizePickTable()->checkIfTodayPicked($prize->id)){
             }else{
-                $this->setTodaysPrizes($prize);
+                $prizesSet = $this->setTodaysPrizes($prize);
+                $prize->current = ($prize->current - $prizesSet);
+                $OnyxPrizeTable = $this->serviceManager->get('OnyxPrizeTable');
+                $OnyxPrizeTable->save($prize);
             }
         }
     }
@@ -129,6 +132,8 @@ class PrizePicker {
                 $this->getPrizePickTable()->save($prizePick);
             }
         }
+        
+        return $checkSum;
         //exit();
         
     }
