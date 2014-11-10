@@ -12,6 +12,12 @@ return array(
     ),
     'service_manager'=> array(
         'abstract_factories' => array(
+            'Zend\Form\FormAbstractServiceFactory',
         ),
+    ),
+    'validators' => array(
+        'invokables' => array(
+            'EnteredDaily' => 'OnyxPrize\Validator\EnteredDaily' 
+         ),
     ),
 );
