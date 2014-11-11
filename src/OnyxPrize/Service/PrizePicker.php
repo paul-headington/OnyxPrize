@@ -59,7 +59,7 @@ class PrizePicker {
         $this->user['last_name'] = $lastName;
         $this->user['email'] = $email;
         if($this->isPastWinner()){
-            return 0;
+            return 2;
         }
         return $this->checkPrizePick();
     }
@@ -73,7 +73,7 @@ class PrizePicker {
         
         //todo add check to win period from settings
         $modelTable = $this->serviceManager->get($this->userModelTable);
-        if($modelTable->winnerByEmail($this->user['email']) === false){
+        if($modelTable->enteredToday($this->user['email']) === false){
             return false;
         }   
         return true;
