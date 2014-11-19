@@ -75,6 +75,7 @@ class PrizePicker {
     
     private function isPastWinner(){
         //todo add check to win period from settings
+        $modelTable = $this->serviceManager->get($this->userModelTable);
         if($modelTable->winnerByEmail($this->user['email']) === false){
             return false;
         }
